@@ -71,7 +71,7 @@ Backend `guest/` · Frontend `features/guest/` · Tests `GuestTestPlan`
 - [ ] `viewByToken`: approved fields only; unknown/expired/revoked → 404 GUEST_LINK_UNAVAILABLE [BB7, Stress 10]
 - [ ] `GuestLinkDao`
 - [ ] UI: Guest links panel (dashboard), public Guest view page
-- [ ] Hosting: Vercel project + `frontend/vercel.json` (see Platforms)
+- [ ] Hosting: Vercel project and Render backend (see Platforms > Hosting and Backend)
 
 ## Notifications / Emailing — Raegen
 Backend `notifications/` · Frontend `features/notifications/` · Tests `NotificationsTestPlan`
@@ -80,9 +80,9 @@ Backend `notifications/` · Frontend `features/notifications/` · Tests `Notific
 - [ ] `EmailQueue.enqueue` (insert row) and `EmailTemplates`
 - [ ] `EmailSenderJob`: claim with SKIP LOCKED, send, retry up to 3, mark failed [Stress 6]
 - [ ] `SmtpMailer` (Mailpit locally, provider in production)
+- [ ] Email provider setup, suggested Resend (any SMTP provider works; only the `SMTP_*` env vars change). Give the SMTP values to Ramanjot for Render
 - [ ] DAOs: `NotificationDao`, `EmailQueueDao`
 - [ ] UI: Notification bell with unread badge, Notifications page, Notification settings
-- [ ] Hosting: Java servlet Docker deploy (see Platforms)
 
 ## Platforms
 
@@ -91,14 +91,15 @@ Backend `notifications/` · Frontend `features/notifications/` · Tests `Notific
 - [ ] Create the Supabase project tables (run the three scripts), share the JDBC string via the password manager
 - [ ] Everyone: write your feature's SQL in your DAOs; propose schema changes by PR to `schema.sql`
 
-### Hosting (Vercel)
+### Hosting (Vercel) — Ramanjot
 - [x] `frontend/vercel.json` (API rewrite, SPA fallback, no API caching)
 - [ ] Create the Vercel project (root `frontend`, Node 24), set `VITE_GOOGLE_CLIENT_ID`, replace `[HOST-PUBLIC-URL]`
 
-### Backend
+### Backend — deploy: Ramanjot
 - [x] Platform: router + dispatcher, error format, JSON, validation, paging, DB pool + transactions, job scheduler, config, health check, dev auth, wiring (`AppContext`)
 - [x] `Dockerfile` (Tomcat 11 + WAR as ROOT), CI workflow
-- [ ] Deploy the container to the host (no sleep), set env vars, verify per Deployment doc
+- [ ] Deploy the container, suggested Render (Railway, Fly.io or Cloud Run work with the same Dockerfile): Web Service, Docker, port 8080, health check `/api/health`, env vars from `backend/.env.local` minus `COMPASS_DEV_AUTH`
+- [ ] Keep it awake (paid instance, or an uptime monitor hitting `/api/health` every 10 min) so email and reminders keep running
 
 ### Frontend — Adam, and everyone
 - [x] Vite + React + TS + Vitest, routing, API client (15 s timeout, ApiError), typed API modules, AuthContext, layout
