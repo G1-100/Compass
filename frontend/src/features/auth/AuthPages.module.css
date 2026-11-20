@@ -1,0 +1,103 @@
+.signInPage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(72, 185, 104, 0.11), transparent 55%),
+    #f7f8fa;
+}
+
+.signInCard {
+  width: min(440px, 100%);
+  padding: 36px;
+  border: 1px solid #e6e8ea;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 18px 48px rgba(32, 33, 36, 0.08);
+}
+
+.brandMark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #48b968;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 750;
+}
+
+.signInCard h1 {
+  margin: 22px 0 4px;
+  color: #202124;
+  font-size: 25px;
+  letter-spacing: -0.03em;
+}
+
+.description {
+  margin: 0;
+  color: #74777d;
+  font-size: 15px;
+}
+
+.devForm {
+  display: grid;
+  gap: 9px;
+  margin-top: 28px;
+}
+
+.devForm label {
+  color: #414449;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.devForm select {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #dfe2e4;
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #fff;
+  color: #202124;
+}
+
+.hint {
+  margin: 2px 0 8px;
+  color: #74777d;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.hint code {
+  color: #4a4e53;
+}
+
+.error {
+  margin: 0;
+  color: #b42318;
+  font-size: 13px;
+}
+
+.submitButton {
+  height: 46px;
+  border: 0;
+  border-radius: 8px;
+  background: #48b968;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.submitButton:hover {
+  background: #329b51;
+}
+
+@media (max-width: 480px) {
+  .signInCard {
+    padding: 28px 22px;
+  }
+}

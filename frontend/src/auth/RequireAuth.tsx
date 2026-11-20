@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router';
+import { getDevUserId } from '../api/client';
 import { useAuth } from './AuthContext';
 
 /**
@@ -9,7 +10,7 @@ import { useAuth } from './AuthContext';
 export function RequireAuth({ children }: { children: ReactNode }) {
   const { me, loading } = useAuth();
   const location = useLocation();
-  const devBypass = import.meta.env.DEV && !!import.meta.env.VITE_DEV_USER_ID;
+  const devBypass = !!getDevUserId();
 
   if (loading) return <p className="muted">Loading…</p>;
   if (!me && !devBypass) return <Navigate to="/sign-in" replace state={{ from: location.pathname }} />;

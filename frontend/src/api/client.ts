@@ -45,10 +45,23 @@ export class ApiError extends Error {
 }
 
 let onUnauthenticated: (() => void) | null = null;
+const DEV_USER_STORAGE_KEY = 'compass.devUserId';
 
 /** AuthContext registers this so any 401 sends the user back to Sign In. */
 export function setUnauthenticatedHandler(handler: (() => void) | null) {
   onUnauthenticated = handler;
+}
+
+export function getDevUserId(): string | undefined {
+  if (!import.meta.env.DEV) return undefined;
+  const configuredUserId = localStorage.getItem(DEV_USER_STORAGE_KEY) ?? import.meta.env.VITE_DEV_USER_ID;
+  return configuredUserId && /^\d+$/.test(configuredUserId) ? configuredUserId : undefined;
+}
+
+export function setDevUserId(userId: string): void {
+  if (!import.meta.env.DEV) throw new Error('Developer sign-in is available only in development');
+  if (!/^\d+$/.test(userId)) throw new Error('A valid developer user ID is required');
+  localStorage.setItem(DEV_USER_STORAGE_KEY, userId);
 }
 
 type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -72,7 +85,7 @@ export async function request<T>(method: Method, path: string, body?: unknown, q
   if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
     headers['Content-Type'] = 'application/json';
   }
-  const devUser = import.meta.env.DEV ? import.meta.env.VITE_DEV_USER_ID : undefined;
+  const devUser = getDevUserId();
   if (devUser) headers['X-Dev-User-Id'] = devUser;
 
   let response: Response;

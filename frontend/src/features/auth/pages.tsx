@@ -1,7 +1,54 @@
 // Auth and account pages. Owner: Gavin.
+import { useState, type FormEvent } from 'react';
+import { useLocation, useNavigate } from 'react-router';
+import { setDevUserId } from '../../api/client';
 import { TodoPage } from '../../components/TodoPage';
+import styles from './AuthPages.module.css';
 
 export function SignInPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [devUser, setDevUser] = useState('2');
+  const [error, setError] = useState('');
+  const devAuthAvailable = import.meta.env.DEV;
+  const from = (location.state as { from?: string } | null)?.from ?? '/teams';
+
+  function signInAsDeveloper(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      setDevUserId(devUser);
+      navigate(from, { replace: true });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not start developer session');
+    }
+  }
+
+  if (devAuthAvailable) {
+    return (
+      <main className={styles.signInPage}>
+        <section className={styles.signInCard}>
+          <div className={styles.brandMark} aria-hidden="true">C</div>
+          <h1>Welcome to Compass</h1>
+          <p className={styles.description}>Sign in to continue to your workspace.</p>
+          <form onSubmit={signInAsDeveloper} className={styles.devForm}>
+            <label htmlFor="dev-user">Local development access</label>
+            <select id="dev-user" value={devUser} onChange={(event) => setDevUser(event.target.value)}>
+              <option value="2">Lena Lead (seeded team lead)</option>
+              <option value="1">Admin User</option>
+              <option value="3">Alex Smith</option>
+              <option value="4">Jordan Lee</option>
+            </select>
+            <p className={styles.hint}>
+              Requires <code>COMPASS_DEV_AUTH=true</code> on your local backend. This option is unavailable in production.
+            </p>
+            {error && <p className={styles.error} role="alert">{error}</p>}
+            <button type="submit" className={styles.submitButton}>Continue to Compass</button>
+          </form>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <TodoPage
       title="Sign in"
