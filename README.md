@@ -75,6 +75,25 @@ Eclipse users: *File → Import → Existing Maven Projects* on `backend/`.
 
 Every endpoint already exists. Ones whose service is still a stub return **501 NOT_IMPLEMENTED** naming the owner.
 
+## Environment variables
+
+Templates live in git; real values never do. `.env`, `.env.local` and `.env.*.local` are already in `.gitignore`.
+
+| File (git-ignored copy) | Template | Read by | Where the same values go in production |
+| --- | --- | --- | --- |
+| `backend/.env.local` | `backend/.env.example` | Docker (`--env-file`); Eclipse users paste the lines into the Tomcat launch configuration's Environment tab. Tomcat does not read the file itself. | Render service → Environment (without `COMPASS_DEV_AUTH`) |
+| `frontend/.env.local` | `frontend/.env.example` | Vite, at dev-server start and build time | Vercel → Settings → Environment Variables (`VITE_GOOGLE_CLIENT_ID` only), then redeploy |
+
+- **Secrets** (`SUPABASE_DB_URL` with its password, `SMTP_PASSWORD`) are shared through the team password manager, not by
+  sending each other `.env` files. Each person copies the template and fills in their own copy.
+- **`VITE_*` values are public**: Vite builds them into the JavaScript bundle. Only the Google client ID belongs there.
+- `GOOGLE_CLIENT_ID` (backend) and `VITE_GOOGLE_CLIENT_ID` (frontend) are the same value.
+- Restart Tomcat, or the Vite dev server, after changing a value. Vercel needs a redeploy.
+- The session cookie is `Secure`. Chrome and Firefox accept it on `http://localhost`, but Safari does not, so test
+  local sign-in in Chrome or Firefox.
+- Seeded accounts have no password. To sign in as one, use *Forgot password* on the sign-in page. While Raegen's
+  email queue is still a stub, the 6-digit code is printed in the Tomcat console (`[EMAIL STUB]`).
+
 ## Commands
 
 | | Backend (`backend/`) | Frontend (`frontend/`) |
