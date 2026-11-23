@@ -1,0 +1,25 @@
+/* Auth and account pages. Owner: Gavin. Uses the base colors from styles.css; restyle with the Figma design. */
+.auth-card { max-width: 400px; margin: 48px auto; background: #fff; border: 1px solid #d0d7de; border-radius: 8px; padding: 24px 28px; }
+.auth-card h1 { margin-top: 0; font-size: 1.5rem; }
+.auth-form { display: flex; flex-direction: column; gap: 14px; margin: 16px 0; }
+.auth-form label { display: flex; flex-direction: column; gap: 4px; font-weight: 500; }
+.auth-form input { font: inherit; padding: 8px 10px; border: 1px solid #d0d7de; border-radius: 6px; font-weight: 400; }
+.auth-form button[type='submit'] { font: inherit; padding: 8px 12px; border-radius: 6px; border: 1px solid #1f883d; background: #1f883d; color: #fff; cursor: pointer; }
+.auth-form button[type='submit']:disabled { opacity: 0.6; cursor: default; }
+.code-input { letter-spacing: 0.4em; font-variant-numeric: tabular-nums; }
+.auth-notice { background: #ddf4ff; border: 1px solid #54aeff; padding: 8px 12px; border-radius: 6px; }
+.auth-links { text-align: center; }
+.link-button { background: none; border: none; padding: 0; color: #0969da; cursor: pointer; font: inherit; }
+.link-button:disabled { color: #656d76; cursor: default; }
+.small { font-size: 0.85rem; font-weight: 400; }
+.panel { background: #fff; border: 1px solid #d0d7de; border-radius: 8px; padding: 16px 24px; }
+.panel .auth-form { max-width: 400px; }
+.profile-facts { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; }
+.profile-facts dt { color: #656d76; }
+.profile-facts dd { margin: 0; }
+.users-table { width: 100%; border-collapse: collapse; }
+.users-table th, .users-table td { text-align: left; padding: 8px; border-bottom: 1px solid #d0d7de; }
+.pager { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+@media (max-width: 640px) {
+  .users-table th:nth-child(4), .users-table td:nth-child(4) { display: none; }
+}

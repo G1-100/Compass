@@ -1,9 +1,10 @@
 /**
  * Holds the signed-in user for the whole app. Owner: Gavin.
- * PLATFORM part (done): context shape, useAuth(), 401 -> sign-in redirect hook-up.
- * TODO(Gavin): call authApi.me() on load to restore the session, and implement signIn/signOut.
+ * On load it calls GET /api/auth/me, so a valid session cookie restores the user after a refresh.
+ * Any 401 from any API call clears the user; RequireAuth then redirects to /sign-in.
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { authApi } from '../api/auth';
 import { setUnauthenticatedHandler } from '../api/client';
 import type { MeResponse, TeamRole } from '../api/types';
 
@@ -26,8 +27,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TODO(Gavin): authApi.me().then(setMe).catch(() => setMe(null)).finally(() => setLoading(false));
-    setLoading(false);
+    let cancelled = false;
+    authApi
+      .me()
+      .then((result) => {
+        if (!cancelled) setMe(result);
+      })
+      .catch(() => {
+        if (!cancelled) setMe(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -37,7 +51,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signOut = useCallback(async () => {
-    // TODO(Gavin): await authApi.logout();
+    try {
+      await authApi.logout();
+    } catch {
+      // Already signed out on the server (expired session); clear the local state anyway.
+    }
     setMe(null);
   }, []);
 
