@@ -43,23 +43,30 @@ export function SubmitButton({ pending, children, ...rest }: { pending: boolean;
 /**
  * Shown on 409 VERSION_CONFLICT. Displays the latest saved record (error.current) and keeps the user's own
  * edits in a "copy my changes" area. "Reload latest" replaces the form with the server version.
- * TODO(Adam): build the dialog UI. Tests: White box 12.
+ * Feature-specific saved values can be shown above the copyable draft.
  */
 export function ConflictDialog<T>({
   latest,
+  latestContent,
   myChanges,
   onReloadLatest,
   onClose,
 }: {
   latest: T;
+  latestContent?: ReactNode;
   myChanges: string;
   onReloadLatest: (latest: T) => void;
   onClose: () => void;
 }) {
   return (
-    <div role="dialog" className="dialog">
-      <p>Someone else changed this. TODO(Adam): show latest values and "copy my changes".</p>
-      <textarea readOnly value={myChanges} />
+    <div role="dialog" aria-label="Version conflict" className="dialog">
+      <h2>Version conflict</h2>
+      <p>Someone else saved changes. Close to keep editing your draft, or reload the latest saved version.</p>
+      {latestContent}
+      <label>
+        Your unsaved changes
+        <textarea readOnly value={myChanges} />
+      </label>
       <button type="button" onClick={() => onReloadLatest(latest)}>
         Reload latest
       </button>

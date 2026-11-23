@@ -43,6 +43,8 @@ public final class Database implements AutoCloseable {
         }
         HikariConfig hc = new HikariConfig();
         hc.setJdbcUrl(config.databaseUrl());
+        // Tomcat's driver discovery does not scan JDBC drivers inside the WAR.
+        hc.setDriverClassName(org.postgresql.Driver.class.getName());
         hc.setMaximumPoolSize(10);
         hc.setPoolName("compass");
         return new Database(new HikariDataSource(hc));
