@@ -15,7 +15,7 @@ import java.util.Optional;
 /** SQL for teams. Owner: Solomon. */
 public class TeamDao {
 
-    public long insert(Connection c, String name, long createdBy) {
+    public long insert(Connection c, String name, long createdBy) throws SQLException {
         String sql = """
                 INSERT INTO teams (
                     name,
