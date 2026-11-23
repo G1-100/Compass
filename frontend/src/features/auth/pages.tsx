@@ -2,11 +2,12 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router';
 import { authApi, usersApi } from '../../api/auth';
-import { ApiError } from '../../api/client';
+import { ApiError, setDevUserId } from '../../api/client';
 import type { Page, SystemRole, User } from '../../api/types';
 import { useAuth } from '../../auth/AuthContext';
 import { ConflictDialog, ErrorBanner, FieldError, SubmitButton } from '../../components/shared';
 import { GoogleSignInButton } from './GoogleSignInButton';
+import styles from './AuthPages.module.css';
 import './auth.css';
 
 /** "Try again in 12 minutes." from a 429's Retry-After, or the server message as-is. */
@@ -103,7 +104,48 @@ export function SignInPage() {
       <p className="auth-links">
         <Link to="/register">Create an account</Link> · <Link to="/reset-password">Forgot password?</Link>
       </p>
+
+      {import.meta.env.DEV && <DevSignIn from={from} />}
     </section>
+  );
+}
+
+/**
+ * LOCAL DEVELOPMENT ONLY (Adam): act as a seeded user via X-Dev-User-Id without a password.
+ * Needs COMPASS_DEV_AUTH=true on the backend. Vite strips this from production builds.
+ */
+function DevSignIn({ from }: { from: string }) {
+  const navigate = useNavigate();
+  const [devUser, setDevUser] = useState('2');
+  const [error, setError] = useState('');
+
+  function signInAsDeveloper(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      setDevUserId(devUser);
+      navigate(from, { replace: true });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not start developer session');
+    }
+  }
+
+  return (
+    <form onSubmit={signInAsDeveloper} className={styles.devForm}>
+      <label htmlFor="dev-user">Local development access</label>
+      <select id="dev-user" value={devUser} onChange={(event) => setDevUser(event.target.value)}>
+        <option value="2">Lena Lead (seeded team lead)</option>
+        <option value="1">Admin User</option>
+        <option value="3">Alex Smith</option>
+        <option value="4">Jordan Lee</option>
+      </select>
+      <p className={styles.hint}>
+        Requires <code>COMPASS_DEV_AUTH=true</code> on your local backend. This option is unavailable in production.
+      </p>
+      {error && <p className={styles.error} role="alert">{error}</p>}
+      <button type="submit" className={styles.submitButton}>
+        Continue as dev user
+      </button>
+    </form>
   );
 }
 

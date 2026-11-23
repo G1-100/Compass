@@ -1,0 +1,89 @@
+.topbar {
+  position: relative;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 0 32px;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #eceef0;
+}
+
+.experimentalHeader {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #777b82;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #202124;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.brandMark {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #47b967;
+  color: #fff;
+  font-size: 15px;
+  box-shadow: 0 5px 14px rgba(71, 185, 103, 0.18);
+}
+
+.primaryNav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.primaryNav a,
+.profile {
+  color: #65686d;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.primaryNav :global(a.active),
+.profile:global(.active) {
+  color: #202124;
+}
+
+.topbarRight {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.signOut {
+  border: 0;
+  background: transparent;
+  color: #65686d;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.signOut:hover,
+.primaryNav a:hover,
+.profile:hover {
+  color: #329b51;
+}
+
+@media (max-width: 760px) {
+  .experimentalHeader {
+    display: none;
+  }
+}
