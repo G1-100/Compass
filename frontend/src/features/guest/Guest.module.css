@@ -1,0 +1,171 @@
+/* Guest links panel + public guest view. Owner: Ramanjot. Colors follow the tokens in styles.css. */
+
+.muted { color: var(--muted); }
+.hint { color: var(--muted); font-size: 0.8125rem; }
+.label { font-size: 0.8125rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---- buttons ---- */
+.primaryButton,
+.secondaryButton,
+.dangerButton,
+.textButton {
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.primaryButton { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.primaryButton:hover:not(:disabled) { background: var(--accent-dark); border-color: var(--accent-dark); }
+.secondaryButton { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+.secondaryButton:hover:not(:disabled) { background: #f3f4f6; }
+.dangerButton { background: #cf222e; color: #fff; border: 1px solid #cf222e; }
+.textButton { background: none; border: 1px solid transparent; color: var(--muted); }
+.textButton:hover { color: var(--ink); }
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.dangerButton:disabled { opacity: 0.6; cursor: default; }
+
+/* ---- badges ---- */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.badgeACTIVE,
+.taskDONE,
+.deadlineCOMPLETE { background: #e6f6eb; color: #1f7a3c; }
+.badgeEXPIRED,
+.taskNOT_STARTED { background: #f1f2f4; color: #5f6368; }
+.badgeREVOKED,
+.taskBLOCKED,
+.deadlineOVERDUE { background: #ffebe9; color: #b42318; }
+.taskIN_PROGRESS,
+.deadlineON_SCHEDULE { background: #e8f0fe; color: #1a56c4; }
+.deadlineAPPROACHING { background: #fff4e0; color: #9a5b00; }
+
+/* ---- progress ---- */
+.progress { display: flex; align-items: center; gap: 10px; width: 100%; }
+.progressTrack { flex: 1; height: 8px; background: #eceef1; border-radius: 999px; overflow: hidden; }
+.progressFill { height: 100%; background: var(--accent); border-radius: 999px; transition: width 0.3s ease; }
+.progressValue { min-width: 3ch; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* ---- panel (dashboard) ---- */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.panelHeader p { margin: 4px 0 0; }
+.panelTitle { margin: 0; font-size: 1.125rem; font-weight: 600; }
+
+.createForm { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.createForm .primaryButton { margin-top: 24px; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 0.875rem; font-weight: 500; }
+.field input {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.created { background: #f2faf4; border: 1px solid #bfe5c9; border-radius: 10px; padding: 12px 14px; }
+.createdTitle { margin: 0 0 8px; font-weight: 500; }
+.copyRow { display: flex; flex-wrap: wrap; gap: 8px; }
+.copyInput {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: ui-monospace, 'SF Mono', Consolas, monospace;
+  font-size: 0.8125rem;
+  background: #fff;
+}
+
+.table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.table th { text-align: left; font-weight: 600; color: var(--muted); padding: 8px; border-bottom: 1px solid var(--line); }
+.table td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.table tr:last-child td { border-bottom: 0; }
+.actions { text-align: right; white-space: nowrap; }
+.actions button + button { margin-left: 6px; }
+
+/* ---- public guest view ---- */
+.guestPage { min-height: 100vh; background: #f7f8fa; color: var(--ink); }
+.guestHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.brand { font-weight: 700; font-size: 1.125rem; color: var(--accent-dark); }
+.readOnly { font-size: 0.8125rem; color: var(--muted); }
+.guestMain { max-width: 1080px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+
+.hero {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.projectName { margin: 0; font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; }
+.summary { margin: 0; color: #3c4043; white-space: pre-line; }
+.overall { display: flex; flex-direction: column; gap: 6px; max-width: 520px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; align-items: start; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.cardTitle { margin: 0 0 12px; font-size: 1rem; font-weight: 600; }
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.rowBetween { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.itemName { min-width: 0; overflow-wrap: anywhere; }
+.milestone { display: flex; flex-direction: column; gap: 6px; }
+
+.members { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.member { display: flex; align-items: center; gap: 10px; }
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: #e6f6eb;
+  color: #1f7a3c;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.unavailable {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 40px 28px;
+  text-align: center;
+}
+.unavailable h1 { margin: 0 0 8px; font-size: 1.5rem; }
+.unavailable p { margin: 0; }
+
+@media (max-width: 640px) {
+  .guestHeader { padding: 12px 16px; }
+  .guestMain { padding: 16px; }
+  .hero { padding: 18px 16px; }
+  .panel { padding: 16px; }
+  .createForm .primaryButton { margin-top: 0; }
+  .table th:nth-child(2),
+  .table td:nth-child(2) { display: none; }
+}
