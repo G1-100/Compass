@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -318,7 +319,7 @@ public class AuthService {
      * until it is implemented, falls back to the same data from UserDao.findTeamSummaries so permission
      * checks already work.
      */
-    private Map<Long, TeamRole> teamRoles(Connection c, long userId) {
+    private Map<Long, TeamRole> teamRoles(Connection c, long userId) throws SQLException {
         try {
             return Map.copyOf(membershipDao.findRolesForUser(c, userId));
         } catch (ApiException e) {
