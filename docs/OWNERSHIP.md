@@ -6,17 +6,17 @@ backend work; your page stubs are in `frontend/src/features/<feature>/`. Testing
 
 ## Auth and Accounts — Gavin
 Backend `auth/` · Frontend `features/auth/`, `auth/AuthContext.tsx` · Tests `AuthTestPlan`
-- [ ] `PasswordHasher` (bcrypt) and password policy
-- [ ] `SessionManager`: create/validate/touch/invalidate sessions, HttpOnly + Secure + SameSite=Lax cookie, 30-min timeout [WB3]
-- [ ] `LoginLockoutService`: 5 failures in 30 min → 30-min lock, 429 + Retry-After [WB1, WB2, BB3, Stress 4]
-- [ ] `VerificationCodeService`: 6-digit hashed codes, 1-hour expiry, 5 attempts [WB4]
-- [ ] `AuthService`: register, activate, resend code, login, logout, me, password reset, `authenticate` for AuthFilter
-- [ ] `AuthFilter`: read session cookie → AuthContext
-- [ ] `GoogleTokenVerifier` + `loginWithGoogle` (Google Cloud setup per Deployment doc)
-- [ ] `PermissionService` real checks (system admin / team role / assignee) [WB5]
-- [ ] `UserService`: profile, admin user list, change system role [Reg 1]
-- [ ] DAOs: `UserDao`, `SessionDao`, `VerificationCodeDao`, `LoginLockoutDao`
-- [ ] Pages: Sign in (+ Google button), Register, Activate, Reset password, Profile, Admin users; restore session in `AuthContext`
+- [x] `PasswordHasher` (bcrypt) and password policy
+- [x] `SessionManager`: create/validate/touch/invalidate sessions, HttpOnly + Secure + SameSite=Lax cookie, 30-min timeout [WB3]
+- [x] `LoginLockoutService`: 5 failures in 30 min → 30-min lock, 429 + Retry-After [WB1, WB2, BB3, Stress 4]
+- [x] `VerificationCodeService`: 6-digit hashed codes, 1-hour expiry, 5 attempts [WB4]
+- [x] `AuthService`: register, activate, resend code, login, logout, me, password reset, `authenticate` for AuthFilter
+- [x] `AuthFilter`: read session cookie → AuthContext
+- [x] `GoogleTokenVerifier` + `loginWithGoogle` (Google Cloud setup per Deployment doc)
+- [x] `PermissionService` real checks (system admin / team role / assignee) [WB5]
+- [x] `UserService`: profile, admin user list, change system role [Reg 1]
+- [x] DAOs: `UserDao`, `SessionDao`, `VerificationCodeDao`, `LoginLockoutDao`
+- [x] Pages: Sign in (+ Google button), Register, Activate, Reset password, Profile, Admin users; restore session in `AuthContext`
 
 ## Teams and Projects/Dashboard — Solomon
 Backend `teams/`, `projects/` · Frontend `features/teams/` · Tests `TeamsTestPlan`
