@@ -80,7 +80,7 @@ Backend `notifications/` · Frontend `features/notifications/` · Tests `Notific
 - [ ] `EmailQueue.enqueue` (insert row) and `EmailTemplates`
 - [ ] `EmailSenderJob`: claim with SKIP LOCKED, send, retry up to 3, mark failed [Stress 6]
 - [ ] `SmtpMailer` (Mailpit locally, provider in production)
-- [ ] Email provider setup, suggested Resend (any SMTP provider works; only the `SMTP_*` env vars change). Give the SMTP values to Ramanjot for Render
+- [x] Email provider setup, suggested Resend (any SMTP provider works; only the `SMTP_*` env vars change). Give the SMTP values to Ramanjot for Render
 - [ ] DAOs: `NotificationDao`, `EmailQueueDao`
 - [ ] UI: Notification bell with unread badge, Notifications page, Notification settings
 
