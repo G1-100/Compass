@@ -41,12 +41,35 @@ public class ProjectService {
 
     /** GET /api/projects?q= */
     public List<Project> search(AuthContext ctx, String query) {
-        throw Todo.of("Solomon", "ProjectService.search");
+        String normalizedQuery = query == null
+                ? ""
+                : query.trim();
+    
+        return db.withConnection(c ->
+                projectDao.searchForUser(
+                        c,
+                        ctx.userId(),
+                        ctx.isSystemAdmin(),
+                        normalizedQuery
+                )
+        );
     }
 
     /** GET /api/teams/{teamId}/projects?includeArchived= */
     public List<Project> listForTeam(AuthContext ctx, long teamId, boolean includeArchived) {
-        throw Todo.of("Solomon", "ProjectService.listForTeam");
+        permissions.require(
+                ctx,
+                Permission.VIEW_WORKSPACE,
+                teamId
+        );
+    
+        return db.withConnection(c ->
+                projectDao.findByTeam(
+                        c,
+                        teamId,
+                        includeArchived
+                )
+        );
     }
 
     /** POST /api/teams/{teamId}/projects. Team lead. Validate name, description, target date, status. */
@@ -56,7 +79,17 @@ public class ProjectService {
 
     /** GET /api/projects/{projectId}. Team member. */
     public Project get(AuthContext ctx, long projectId) {
-        throw Todo.of("Solomon", "ProjectService.get");
+        return db.withConnection(c -> {
+            requirePermission(
+                    c,
+                    ctx,
+                    projectId,
+                    Permission.VIEW_WORKSPACE
+            );
+    
+            return projectDao.findById(c, projectId)
+                    .orElseThrow(ApiException::notFound);
+        });
     }
 
     /** PATCH /api/projects/{projectId}. Team lead; version-checked; archived projects are read-only (409). */
