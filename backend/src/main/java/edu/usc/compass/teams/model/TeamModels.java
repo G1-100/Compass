@@ -32,8 +32,7 @@ public final class TeamModels {
          * A PENDING row past expiresAt counts as EXPIRED. Tests: Unit 9.
          */
         public boolean isExpired(Instant now) {
-            // TODO(Solomon): implement
-            throw edu.usc.compass.common.Todo.of("Solomon", "Invitation.isExpired");
+            return status == InvitationStatus.PENDING && now.isAfter(expiresAt);
         }
     }
 
