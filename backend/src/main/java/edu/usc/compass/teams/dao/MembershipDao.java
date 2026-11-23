@@ -18,6 +18,8 @@ import java.util.Optional;
 /** SQL for team_memberships. Owner: Solomon. SHARED: auth, tasks, check-ins and workload read from it. */
 public class MembershipDao {
 
+    private static final String UNIQUE_VIOLATION = "23505";
+
     /** team_id -> role for every team the user is in. Used by AuthService.authenticate on every request. */
     public Map<Long, TeamRole> findRolesForUser(Connection c, long userId) throws SQLException {
         String sql = """
@@ -198,6 +200,12 @@ public class MembershipDao {
     
                 return rs.getLong("membership_id");
             }
+        } catch (SQLException e) {
+            // UNIQUE (team_id, user_id): a second add or a double-accepted invitation is a 409, not a 500.
+            if (UNIQUE_VIOLATION.equals(e.getSQLState())) {
+                throw ApiException.invalidState("This user is already a member of the team.");
+            }
+            throw e;
         }
     }
 
