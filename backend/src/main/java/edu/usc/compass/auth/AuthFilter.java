@@ -33,9 +33,8 @@ public class AuthFilter extends HttpFilter {
 
         Optional<AuthContext> auth = devAuth(app, req);
         if (auth.isEmpty()) {
-            // TODO(Gavin): read the session cookie (SessionManager.COOKIE_NAME), then
-            //  auth = app.authService().authenticate(rawSessionId);
-            //  which validates the session, updates last_activity_at and loads team memberships.
+            // Validates the session, updates last_activity_at and loads team memberships. Never throws.
+            auth = app.sessionManager().readCookie(req).flatMap(app.authService()::authenticate);
         }
         auth.ifPresent(a -> req.setAttribute(RequestContext.AUTH_ATTRIBUTE, a));
         chain.doFilter(req, resp);

@@ -4,12 +4,12 @@ import edu.usc.compass.auth.AuthDtos.ActivateRequest;
 import edu.usc.compass.auth.AuthDtos.ChangeSystemRoleRequest;
 import edu.usc.compass.auth.AuthDtos.GoogleLoginRequest;
 import edu.usc.compass.auth.AuthDtos.LoginRequest;
+import edu.usc.compass.auth.AuthDtos.LoginResult;
 import edu.usc.compass.auth.AuthDtos.PasswordResetConfirmRequest;
 import edu.usc.compass.auth.AuthDtos.PasswordResetRequest;
 import edu.usc.compass.auth.AuthDtos.RegisterRequest;
 import edu.usc.compass.auth.AuthDtos.ResendCodeRequest;
 import edu.usc.compass.auth.AuthDtos.UpdateProfileRequest;
-import edu.usc.compass.common.Todo;
 import edu.usc.compass.common.web.Router;
 
 import static edu.usc.compass.common.web.Router.Access.PUBLIC;
@@ -17,7 +17,7 @@ import static edu.usc.compass.common.web.Router.Access.SIGNED_IN;
 
 /**
  * Routes for Accounts and Authentication (Detailed Design 3.5.10). Owner: Gavin.
- * Routes are wired; the service methods they call are stubs.
+ * Login and Google sign-in set the HttpOnly session cookie; logout clears it.
  */
 public final class AuthController {
 
@@ -42,16 +42,19 @@ public final class AuthController {
             return null;
         });
         r.post("/api/auth/login", PUBLIC, ctx -> {
-            // TODO(Gavin): var result = auth.login(...); sessions.writeCookie(ctx.rawResponse(), result.rawSessionId()); return result.me();
-            throw Todo.of("Gavin", "POST /api/auth/login");
+            LoginResult result = auth.login(ctx.body(LoginRequest.class));
+            sessions.writeCookie(ctx.rawResponse(), result.rawSessionId());
+            return result.me();
         });
         r.post("/api/auth/google", PUBLIC, ctx -> {
-            // TODO(Gavin): same as login, using auth.loginWithGoogle(ctx.body(GoogleLoginRequest.class))
-            throw Todo.of("Gavin", "POST /api/auth/google");
+            LoginResult result = auth.loginWithGoogle(ctx.body(GoogleLoginRequest.class));
+            sessions.writeCookie(ctx.rawResponse(), result.rawSessionId());
+            return result.me();
         });
         r.post("/api/auth/logout", SIGNED_IN, ctx -> {
-            // TODO(Gavin): read cookie, auth.logout(raw), sessions.clearCookie(ctx.rawResponse())
-            throw Todo.of("Gavin", "POST /api/auth/logout");
+            sessions.readCookie(ctx.rawRequest()).ifPresent(auth::logout);
+            sessions.clearCookie(ctx.rawResponse());
+            return null;
         });
         r.get("/api/auth/me", SIGNED_IN, ctx -> auth.me(ctx.auth()));
         r.post("/api/auth/password-reset/request", PUBLIC, ctx -> {
