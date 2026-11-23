@@ -67,10 +67,10 @@ Backend `workload/` · Frontend `features/workload/` · Tests `WorkloadTestPlan`
 
 ## Sharing / Guest Links — Ramanjot
 Backend `guest/` · Frontend `features/guest/` · Tests `GuestTestPlan`
-- [ ] `GuestLinkService`: create (random token, store hash, share URL), list with status, revoke, audit events [BB6]
-- [ ] `viewByToken`: approved fields only; unknown/expired/revoked → 404 GUEST_LINK_UNAVAILABLE [BB7, Stress 10]
-- [ ] `GuestLinkDao`
-- [ ] UI: Guest links panel (dashboard), public Guest view page
+- [x] `GuestLinkService`: create (random token, store hash, share URL), list with status, revoke, audit events [BB6]
+- [x] `viewByToken`: approved fields only; unknown/expired/revoked → 404 GUEST_LINK_UNAVAILABLE [BB7, Stress 10]
+- [x] `GuestLinkDao`
+- [x] UI: Guest links panel (dashboard; Solomon mounts `<GuestLinksPanel projectId>` for leads), public Guest view page
 - [ ] Hosting: Vercel project and Render backend (see Platforms > Hosting and Backend)
 
 ## Notifications / Emailing — Raegen
