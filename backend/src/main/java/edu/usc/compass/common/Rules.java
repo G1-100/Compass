@@ -36,4 +36,7 @@ public final class Rules {
 
     // Check-ins (Graham)
     public static final Duration DEFAULT_CHECKIN_REMINDER_LEAD = Duration.ofHours(24);
+    public static final int CHECKIN_TEXT_LIMIT = 2_000;
+    public static final int CHECKIN_LOCATION_LIMIT = 300;
+    public static final int CHECKIN_BLOCKER_LIMIT = 500;
 }

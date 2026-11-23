@@ -240,6 +240,20 @@ export interface CheckinUpdate {
   blockers: Blocker[];
 }
 
+export interface CheckinBlockerInput {
+  blockerId?: Blocker['blockerId'];
+  description: string;
+  severity: Severity;
+  taskId?: Blocker['taskId'];
+}
+
+export interface SubmitCheckinUpdate {
+  version: CheckinUpdate['version'];
+  completedWork: CheckinUpdate['completedWork'];
+  upcomingTasks: CheckinUpdate['upcomingTasks'];
+  blockers: CheckinBlockerInput[];
+}
+
 // ---- Workload (Liv) ----
 export interface Availability {
   projectId: number;

@@ -167,7 +167,8 @@ public final class AppContext implements AutoCloseable {
         DashboardService dashboard = new DashboardService(db, projectService, taskDao, milestoneService, clock);
 
         // ---- Check-ins (Graham) ----
-        CheckinService checkinService = new CheckinService(db, checkinDao, permissions, notificationService, clock);
+        CheckinService checkinService = new CheckinService(db, checkinDao, permissions, notificationService,
+                taskDao, projectDao, clock);
 
         // ---- Guest links (Ramanjot) ----
         GuestLinkService guestLinkService = new GuestLinkService(db, guestLinkDao, projectService, taskDao,

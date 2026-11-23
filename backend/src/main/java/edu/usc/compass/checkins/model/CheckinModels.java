@@ -1,7 +1,6 @@
 package edu.usc.compass.checkins.model;
 
 import edu.usc.compass.common.Severity;
-import edu.usc.compass.common.Todo;
 
 import java.time.Instant;
 import java.util.List;
@@ -21,7 +20,7 @@ public final class CheckinModels {
 
         /** True only while SCHEDULED; completed or canceled check-ins lock their updates. Tests: Unit 15. */
         public boolean acceptsUpdates() {
-            throw Todo.of("Graham", "Checkin.acceptsUpdates");
+            return status == CheckinStatus.SCHEDULED;
         }
     }
 
@@ -30,7 +29,7 @@ public final class CheckinModels {
 
         /** True once resolvedAt is set. Tests: Unit 20. */
         public boolean isResolved() {
-            throw Todo.of("Graham", "Blocker.isResolved");
+            return resolvedAt != null;
         }
     }
 
