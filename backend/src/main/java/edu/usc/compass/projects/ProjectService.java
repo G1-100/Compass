@@ -3,6 +3,7 @@ package edu.usc.compass.projects;
 import edu.usc.compass.auth.Permission;
 import edu.usc.compass.auth.PermissionService;
 import edu.usc.compass.auth.model.AuthContext;
+import edu.usc.compass.common.ApiException;
 import edu.usc.compass.common.Todo;
 import edu.usc.compass.common.VersionRequest;
 import edu.usc.compass.common.db.Database;
