@@ -11,7 +11,6 @@ import edu.usc.compass.teams.model.TeamModels.AuditEvent;
 import edu.usc.compass.teams.model.TeamModels.AuditEventType;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 /** Audit trail for sensitive team actions. Owner: Solomon. */
 public class AuditLogService {
@@ -31,21 +30,14 @@ public class AuditLogService {
      * transaction. Stub: no-op until implemented.
      */
     public void record(Connection c, long teamId, Long actorUserId, Long targetUserId, AuditEventType type, String details) {
-        try {
-            auditDao.insert(
-                    c,
-                    teamId,
-                    actorUserId,
-                    targetUserId,
-                    type,
-                    details
-            );
-        } catch (SQLException e) {
-            throw new IllegalStateException(
-                    "Could not record the audit event.",
-                    e
-            );
-        }
+        auditDao.insert(
+                c,
+                teamId,
+                actorUserId,
+                targetUserId,
+                type,
+                details
+        );
     }
 
     /** GET /api/teams/{teamId}/audit-log. Team lead. Newest first. */
