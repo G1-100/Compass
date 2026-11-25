@@ -104,7 +104,7 @@ class GuestTestPlan {
     // ---- Black box 6 ----------------------------------------------------
 
     @Test
-    void bb6_revokedLinkStopsWorking() {
+    void bb6_revokedLinkStopsWorking() throws Exception {
         String token = tokenOf(service.create(LEAD, PROJECT_ID, null));
         assertEquals("Compass", service.viewByToken(token).projectName());
 
@@ -117,7 +117,7 @@ class GuestTestPlan {
     }
 
     @Test
-    void revokingTwiceIsIdempotentAndAuditsOnce() {
+    void revokingTwiceIsIdempotentAndAuditsOnce() throws Exception {
         service.create(LEAD, PROJECT_ID, null);
         long linkId = dao.links.keySet().iterator().next();
         service.revoke(LEAD, PROJECT_ID, linkId);
@@ -167,7 +167,7 @@ class GuestTestPlan {
     }
 
     @Test
-    void createdLinkStoresOnlyTheHashAndReturnsShareUrlOnce() {
+    void createdLinkStoresOnlyTheHashAndReturnsShareUrlOnce() throws Exception {
         CreatedGuestLink created = service.create(LEAD, PROJECT_ID, NOW.plus(Duration.ofDays(3)));
         String token = tokenOf(created);
 
@@ -189,7 +189,7 @@ class GuestTestPlan {
     }
 
     @Test
-    void expiryMustBeInTheFuture() {
+    void expiryMustBeInTheFuture() throws Exception {
         ApiException e = assertThrows(ApiException.class, () -> service.create(LEAD, PROJECT_ID, NOW));
         assertEquals(ErrorCode.VALIDATION_FAILED, e.code());
         assertTrue(e.fields().containsKey("expiresAt"));
