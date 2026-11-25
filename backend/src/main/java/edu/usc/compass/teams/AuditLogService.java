@@ -11,6 +11,7 @@ import edu.usc.compass.teams.model.TeamModels.AuditEvent;
 import edu.usc.compass.teams.model.TeamModels.AuditEventType;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /** Audit trail for sensitive team actions. Owner: Solomon. */
 public class AuditLogService {
@@ -27,9 +28,10 @@ public class AuditLogService {
 
     /**
      * SHARED CONTRACT (Ramanjot calls this for guest links). Inserts an audit_log row inside the caller's
-     * transaction. Stub: no-op until implemented.
+     * transaction, so a failed audit write rolls back the change it records (Unit 6).
      */
-    public void record(Connection c, long teamId, Long actorUserId, Long targetUserId, AuditEventType type, String details) {
+    public void record(Connection c, long teamId, Long actorUserId, Long targetUserId, AuditEventType type, String details)
+            throws SQLException {
         auditDao.insert(
                 c,
                 teamId,
